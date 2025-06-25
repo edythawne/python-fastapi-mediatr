@@ -1,15 +1,15 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from app.infrastructure.database_context import db_connection
+from app.infrastructure.service.base_service import BaseService
 
 
-class LoginService:
-    db_context: Session
+class LoginService(BaseService):
 
-    def __init__(self, context: Session = Depends(db_connection)):
-        print("Constructor de LoginService")
-        self.db_context = context
+    def __init__(self, session: Session):
+        super().__init__(session)
 
     def execute(self):
-        print(self.db_context.execute("SELECT 1"))
-        print("LoginService : execute")
+        data = self.session.execute(text("SELECT * FROM client.user"))
+        return data.fetchall()

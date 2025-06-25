@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 from urllib.parse import quote_plus
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -15,23 +15,19 @@ DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = quote_plus(os.getenv("DB_PASSWORD"))
 
-
 # Crear cadena de conexión
 DATABASE_URL = f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-print(DATABASE_URL)
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
-
 
 # Declarative Base
 Base = declarative_base()
 
-
 def db_connection():
     try:
         with engine.connect() as connection:
-            connection.execute(text("SELECT 1"))
-        print("✅ Database connected successfully.")
+            pass
+        print("Database connected successfully.")
     except SQLAlchemyError as e:
-        print(f"❌ Error connecting to the database: {e}")
+        print(f"Error connecting to the database: {e}")
+
